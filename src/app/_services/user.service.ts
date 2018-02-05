@@ -12,7 +12,7 @@ import 'rxjs/add/observable/throw';
 export class UserService {
     baseUrl = environment.apiUrl;
 
-constructor(private authHttp: AuthHttp) { }
+    constructor(private authHttp: AuthHttp) { }
 
     getUsers(): Observable<User[]> {
         return this.authHttp
@@ -30,6 +30,14 @@ constructor(private authHttp: AuthHttp) { }
 
     updateUser(id: number, user: User) {
         return this.authHttp.put(this.baseUrl + 'users/' + id, user).catch(this.handleError);
+    }
+
+    setMainPhoto(userId: number, id: number) {
+        return this.authHttp.post(this.baseUrl + 'users/' + userId + '/photos/' + id + '/setMain', {}).catch(this.handleError);
+    }
+
+    deletePhoto(userId: number, id: number) {
+        return this.authHttp.delete(this.baseUrl + 'users/' + userId + '/photos/' + id).catch(this.handleError);
     }
 
     private handleError(error: any) {
