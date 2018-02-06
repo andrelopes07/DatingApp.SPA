@@ -1,5 +1,5 @@
 import { Resolve, ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/router';
-import { User } from '../_models/user';
+import { User } from '../_models/User';
 import { Injectable } from '@angular/core';
 import { UserService } from '../_services/user.service';
 import { AlertifyService } from '../_services/alertify.service';

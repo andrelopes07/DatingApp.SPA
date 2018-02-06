@@ -5,7 +5,7 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
 import { Observable } from 'rxjs/Observable';
 import { tokenNotExpired, JwtHelper } from 'angular2-jwt';
-import { User } from '../_models/user';
+import { User } from '../_models/User';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 @Injectable()
@@ -33,13 +33,17 @@ constructor(private http: Http) { }
                 this.decodedToken = this.jwtHelper.decodeToken(user.tokenString);
                 this.userToken = user.tokenString;
                 this.currentUser = user.user;
-                this.changeMemberPhoto(this.currentUser.photoUrl);
+                if (this.currentUser.photoUrl != null) {
+                    this.changeMemberPhoto(this.currentUser.photoUrl);
+                } else {
+                    this.changeMemberPhoto('../../assets/user.png');
+                }
             }
         }).catch(this.handleError);
     }
 
-    register(model: any) {
-        return this.http.post(this.baseUrl + 'register', model, this.requestOptions()).catch(this.handleError);
+    register(user: User) {
+        return this.http.post(this.baseUrl + 'register', user, this.requestOptions()).catch(this.handleError);
     }
 
     loggedIn() {

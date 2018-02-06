@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { AuthService } from './_services/auth.service';
 import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
 import { JwtHelper } from 'angular2-jwt';
-import { User } from './_models/user';
+import { User } from './_models/User';
 
 @Component({
   selector: 'app-root',
@@ -23,7 +23,11 @@ export class AppComponent implements OnInit {
     }
     if (user) {
       this.authService.currentUser = user;
-      this.authService.changeMemberPhoto(user.photoUrl);
+      if (this.authService.currentUser.photoUrl != null) {
+        this.authService.changeMemberPhoto(user.photoUrl);
+      } else {
+        this.authService.changeMemberPhoto('../assets/user.png');
+      }
     }
   }
 
