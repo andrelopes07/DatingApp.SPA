@@ -30,6 +30,7 @@ import { PreventUnsavedChanges } from './_guards/prevent-unsaved-changes.guard';
 import { PhotoEditorComponent } from './members/photo-editor/photo-editor.component';
 import { FileUploadModule } from 'ng2-file-upload/file-upload/file-upload.module';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker/';
+import { TimeAgoPipe } from 'time-ago-pipe';
 
 
 @NgModule({
@@ -44,7 +45,8 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker/';
     MemberCardComponent,
     MemberDetailComponent,
     MemberEditComponent,
-    PhotoEditorComponent
+    PhotoEditorComponent,
+    TimeAgoPipe
 ],
   imports: [
     BrowserModule,
