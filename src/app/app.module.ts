@@ -19,7 +19,6 @@ import { RouterModule } from '@angular/router';
 import { AuthGuard } from './_guards/auth.guard';
 import { UserService } from './_services/user.service';
 import { MemberCardComponent } from './members/member-card/member-card.component';
-import { AuthModule } from './auth/auth.module';
 import { MemberDetailComponent } from './members/member-detail/member-detail.component';
 import { TabsModule } from 'ngx-bootstrap/tabs/tabs.module';
 import { MemberDetailResolver } from './_resolvers/member-detail.resolver';
@@ -30,10 +29,22 @@ import { PreventUnsavedChanges } from './_guards/prevent-unsaved-changes.guard';
 import { PhotoEditorComponent } from './members/photo-editor/photo-editor.component';
 import { FileUploadModule } from 'ng2-file-upload/file-upload/file-upload.module';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker/';
-import { TimeAgoPipe } from 'time-ago-pipe';
 import { ListsResolver } from './_resolvers/lists.resolver';
 import { MessageResolver } from './_resolvers/message.resolver';
 import { MemberMessagesComponent } from './members/member-messages/member-messages.component';
+import { JwtModule } from '@auth0/angular-jwt';
+import { HttpClientModule } from '@angular/common/http';
+import { ErrorInterceptorProvider } from './_services/error.interceptor';
+import { TimeAgoPipe } from './_Pipes/time-ago-pipe';
+
+export function getAccessToken(): string {
+  return localStorage.getItem('token');
+}
+
+export const jwtConfig = {
+  tokenGetter: getAccessToken,
+  whitelistedDomains: ['localhost:5000']
+};
 
 
 @NgModule({
@@ -60,12 +71,13 @@ import { MemberMessagesComponent } from './members/member-messages/member-messag
     BsDropdownModule.forRoot(),
     TabsModule.forRoot(),
     RouterModule.forRoot(appRoutes),
-    AuthModule,
     NgxGalleryModule,
     FileUploadModule,
     BsDatepickerModule.forRoot(),
     PaginationModule.forRoot(),
-    ButtonsModule.forRoot()
+    ButtonsModule.forRoot(),
+    HttpClientModule,
+    JwtModule.forRoot({ config: jwtConfig })
   ],
   providers: [
     AuthService,
@@ -77,7 +89,8 @@ import { MemberMessagesComponent } from './members/member-messages/member-messag
     MemberEditResolver,
     PreventUnsavedChanges,
     ListsResolver,
-    MessageResolver
+    MessageResolver,
+    ErrorInterceptorProvider
   ],
   bootstrap: [AppComponent]
 })
